@@ -1,0 +1,27 @@
+df=pd.read_csv('HousePrices.csv')
+df
+from sklearn.linear_model import LinearRegression as lr
+m=lr()
+miss_val=df.columns[df.isnull().any()]
+df[miss_val].isnull().sum()
+df['LotFrontage'].fillna((df['LotFrontage']).mean(),inplace=True)
+df['MasVnrArea'].fillna((df['MasVnrArea']).mean(),inplace=True)
+df['GarageYrBlt'].fillna((df['GarageYrBlt']).mean(),inplace=True)
+x = df[['BsmtFinSF1','BsmtFinSF2','BsmtUnfSF','TotalBsmtSF','2ndFlrSF','LowQualFinSF','GrLivArea','BsmtFullBath','BsmtHalfBath','FullBath','HalfBath','BedroomAbvGr','KitchenAbvGr','TotRmsAbvGrd','Fireplaces','GarageYrBlt','GarageCars','MasVnrArea','GarageArea','WoodDeckSF','OpenPorchSF','EnclosedPorch','3SsnPorch','ScreenPorch','PoolArea','LotArea']]
+y = df['Property_Sale_Price']
+m.fit(x,y)
+m.score(x,y)
+m.predict([[706,0,150,856,854,0,1710,1,0,2,1,4,2,7,1,1996,2,196.0,548,0,61,0,0,0,0,8450]])
+m.coef_
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.25,random_state=0)
+m1=LinearRegression()
+m1.fit(x_train,y_train)
+pred=m1.predict(x_test)
+pred
+import numpy as np
+from sklearn import metrics
+test_set_r2=metrics.r2_score(y_test,pred)
+print(test_set_r2)
+m1.predict([[706,0,150,856,854,0,1710,1,0,2,1,4,2,7,1,1996,2,196.0,548,0,61,0,0,0,0,8450]])
